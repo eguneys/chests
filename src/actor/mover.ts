@@ -2,9 +2,32 @@ import { Situation } from '../situation';
 import { Analysis } from './analysis';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
+import { CastlesOn } from './castle';
 import { Move, isMove } from '../move';
-import { UciOrCastles } from '../uci';
-import { isCastles, Castles } from '../san';
+import { Uci, UciOrCastles } from '../uci';
+import { San, SanOrCastles, isCastles, Castles } from '../san';
+
+export function moveCastles(situation: Situation, castles: CastlesOn): Maybe<Move> {
+
+  let afterBoard = situation.board.castle(castles.origKingPos,
+                                          castles.destKingPos,
+                                          castles.origRookPos,
+                                          castles.destRookPos);
+
+  if (afterBoard) {
+    return Move.make(
+      castles.piese.piece,
+      situation,
+      afterBoard,
+      castles.origKingPos,
+      castles.destKingPos,
+      undefined,
+      undefined,
+      castles.castles
+    );    
+  }
+  
+}
 
 export function movePawnPush(situation: Situation, pawnPush: PawnPush): Maybe<Move> {
   let afterBoard = situation.board.move(pawnPush.pos,
@@ -33,19 +56,28 @@ export function move(situation: Situation, pressure: Pressure): Maybe<Move> {
   }
 }
 
-export function uciOrCastles(uciOrCastles: UciOrCastles): (_: Move) => boolean {
-  if (isCastles(uciOrCastles)) {
-    if (uciOrCastles.equals(Castles.short)) {
-      
-    } else if (uciOrCastles.equals(Castles.long)) {
-    }
-    return (move: Move) => false;
-  } else {
-    return (move: Move) =>
-      move.orig.equals(uciOrCastles.orig) &&
-      move.dest.equals(uciOrCastles.dest) &&
-      (uciOrCastles.promotion===move.promotion ||
-        !!uciOrCastles.promotion&&!!move.promotion&&
-        move.promotion.equals(uciOrCastles.promotion));
+export function orCastles(castles: Castles): (_: Move) => boolean {
+  return (move: Move) =>
+    move.castle?.equals(castles) || false;
+}
+
+export function san(san: San): (_: Move) => boolean {
+  return (move: Move) => {
+    return (san.file?move.orig.file.equals(san.file):true) &&
+      (san.rank?move.orig.rank.equals(san.rank):true) &&
+      san.role.equals(move.piece.role) &&
+      move.dest.equals(san.to) &&
+      (san.promotion===move.promotion ||
+        !!san.promotion&&!!move.promotion&&
+        move.promotion.equals(san.promotion));
   }
+}
+
+export function uci(uci: Uci): (_: Move) => boolean {
+  return (move: Move) =>
+    move.orig.equals(uci.orig) &&
+    move.dest.equals(uci.dest) &&
+    (uci.promotion===move.promotion ||
+      !!uci.promotion&&!!move.promotion&&
+      move.promotion.equals(uci.promotion));
 }

@@ -42,6 +42,10 @@ export class Pressure {
   get direct(): boolean {
     return this.blocks.length === 0 && !this.defend;
   }
+
+  get emptyPawnCapture(): boolean {
+    return !this.captures && this.piese.is(Role.pawn);
+  }
   
   piese: Piese
   to: Pos

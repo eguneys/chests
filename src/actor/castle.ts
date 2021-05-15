@@ -1,41 +1,43 @@
+import { Role } from '../role';
+import { Board } from '../board';
+import { Piese } from '../piese';
+import { Piece } from '../piece';
+import { Pos } from '../pos';
+import { Castles } from '../san';
 
-  // get moves(): Array<Move> {
-  //   let situation = this.situation;
+export class CastlesOn {
 
-  //   let king = this.piece,
-  //   rook = Role.rook.color(this.color);
+  static make = (piese: Piese,
+                 origRook: Piese,
+                 castles: Castles) => new CastlesOn(piese, origRook, castles);
 
-  //   let origKingPos = this.pos;
-    
-  //   return Castles.all.map(castles => {
+  origRook: Piese
+  piese: Piese
+  castles: Castles
 
-  //     let destKingPos = origKingPos.cfile(castles.king);
+  get origKingPos(): Pos {
+    return this.piese.pos;
+  }
 
-  //     let koor = origKingPos.route(castles.trip.rank());
-  //     let origRookse = this.board
-  //       .onRoute(koor)
-  //       .filter(_ => _.piece.equals(rook))[0];
+  get destKingPos(): Pos {
+    return this.origKingPos.cfile(this.castles.king);
+  }
 
-  //     if (!origRookse || !origRookse.piece.is(Role.rook)) {
-  //       return;
-  //     }
+  get origRookPos(): Pos {
+    return this.origRook.pos;
+  }
 
-  //     let origRookPos = origRookse.pos;
-  //     let destRookPos = origRookPos.cfile(castles.rook);
-
-  //     let after = this.board.castle(origKingPos, destKingPos, origRookPos, destRookPos);
-
-  //     if (!after) {
-  //       return;
-  //     }
-
-  //     return Move.make(king,
-  //                      situation,
-  //                      after,
-  //                      origKingPos,
-  //                      destKingPos,
-  //                      undefined,
-  //                      undefined,
-  //                      castles);
-  //   }).filter<Move>(isMove);
-  // }
+  get destRookPos(): Pos {
+    return this.origRookPos.cfile(this.castles.rook);
+  }
+  
+  
+  constructor(piese: Piese,
+              origRook: Piese,
+              castles: Castles) {
+    this.piese = piese;
+    this.origRook = origRook;
+    this.castles = castles;
+  }
+  
+}

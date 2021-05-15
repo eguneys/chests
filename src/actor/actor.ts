@@ -11,6 +11,7 @@ import { D1, D2 } from '../disp';
 import { ColorMap } from '../cmap';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
+import { CastlesOn } from './castle';
 
 export class Actor {
   
@@ -87,6 +88,28 @@ export class Actor {
     });
   }
 
+  get castles(): Array<CastlesOn> {
+    if (!this.piese.is(Role.king)) {
+      return [];
+    }
+
+    let origKingPos = this.piese.pos;
+    
+    return Castles.all.flatMap(castles => {
+      let koor = origKingPos.route(castles.trip.rank());
+      let origRook = this.board
+        .onRoute(koor)
+        .filter(_ => _.piece.is(Role.rook))[0];
+
+      if (origRook) {
+        return [CastlesOn.make(this.piese,
+                       origRook,
+                       castles)]
+      }
+      return [];
+    });
+  }
+
   readonly piese: Piese
   readonly board: Board
 
@@ -95,7 +118,7 @@ export class Actor {
     this.piese = piese;
     this.board = board;
   }
-
+  
 }
 
 export function isActor(_: any): _ is Actor {

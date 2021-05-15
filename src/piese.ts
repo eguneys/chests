@@ -28,7 +28,7 @@ export class Piese extends AnyVal {
 
   get projection(): number {
     return this.piece.is(Role.pawn) &&
-      this.pos.equals(pawn2ProjectionRanks.get(this.piece.color))?
+      this.pos.rank.equals(pawn2ProjectionRanks.get(this.piece.color))?
       2:regularProjectionMap.get(this.piece.role, this.piece.color);
   }
 

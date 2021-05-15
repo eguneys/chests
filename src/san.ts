@@ -30,13 +30,14 @@ export function san(san: string): Maybe<San> {
     capture = captureS !== '',
     rank = rankS !== '' ? Rank.mkey(rankS) : undefined,
     file = fileS !== '' ? File.mkey(fileS) : undefined,
-    role = roleS !== '' ? Role.mkey(roleS) : Role.pawn,
+    role = roleS !== '' ? Role.mkey(roleS) || Role.pawn : Role.pawn,
     promotion = promotionS !== '' ? Role.mkey(promotionS): undefined,
     to = Pos.mkey(toS);
 
     if (to) {
       return new San(san,
                      to,
+                     role,
                      file,
                      rank,
                      promotion,
@@ -54,6 +55,7 @@ export type SanOrCastles = San | Castles
 export class San extends AnyVal {
 
   to: Pos
+  role: Role
   file?: File
   rank?: Rank
   promotion?: Role
@@ -63,6 +65,7 @@ export class San extends AnyVal {
 
   constructor(key: string,
               to: Pos,
+              role: Role,
               file?: File,
               rank?: Rank,
               promotion?: Role,
@@ -72,6 +75,7 @@ export class San extends AnyVal {
     super(key);
     
     this.to = to;
+    this.role = role;
     this.file = file;
     this.rank = rank;
     this.promotion = promotion;

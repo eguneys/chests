@@ -5,6 +5,7 @@ import { Pos } from '../pos';
 import { Role, Color } from '../role';
 import { ColorMap } from '../cmap';
 import { Actor } from './actor';
+import { CastlesOn } from './castle';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
 
@@ -31,6 +32,10 @@ export class Analysis {
   
   get ourPressures(): Array<Pressure> {
     return this.us.flatMap(_ => _.pressures);
+  }
+
+  get ourCastles(): Array<CastlesOn> {
+    return this.us.flatMap(_ => _.castles);
   }
 
   get ourDirectPressures(): Array<Pressure> {

@@ -2,6 +2,7 @@ import { Role } from '../role';
 import { Piese } from '../piese';
 import { Piece } from '../piece';
 import { Pos } from '../pos';
+import { pawn2ProjectionRanks } from '../misc';
 
 
 export class PawnPush {
@@ -23,6 +24,10 @@ export class PawnPush {
   
   get direct(): boolean {
     return this.blocks.length === 0;
+  }
+
+  get double(): boolean {
+    return this.pos.rank.equals(pawn2ProjectionRanks.get(this.piese.color))
   }
   
   constructor(piese: Piese,

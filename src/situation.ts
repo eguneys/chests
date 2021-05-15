@@ -2,10 +2,10 @@ import AnyVal from './anyval';
 import { Board } from './board';
 import { Color } from './role';
 import { UciOrCastles } from './uci';
-import { isCastles } from './san';
+import { SanOrCastles, isCastles } from './san';
 import { Move, isMove } from './move';
 import { Analysis } from './actor/analysis';
-import { move, uciOrCastles } from './actor/mover';
+import { moveCastles, movePawnPush, move, uci, san, orCastles } from './actor/mover';
 
 export class Situation extends AnyVal {
   
@@ -25,10 +25,21 @@ export class Situation extends AnyVal {
   }
 
   get moves(): Array<Move> {
-    return this.analysis.ourDirectPressures
-      .map(_ => move(this, _))
+
+    let pawnpushes = this.analysis.ourPawnPushes
+      .map(_ => movePawnPush(this, _));
+    
+    let directs = this.analysis.ourDirectPressures
+      .filter(_ => !_.emptyPawnCapture)
+      .map(_ => move(this, _));
+
+    let castles = this.analysis.ourCastles
+      .map(_ => moveCastles(this, _));
+
+    return pawnpushes.concat(directs).concat(castles)
       .filter(isMove)
-      .filter(_ => _.after.analysis.noKingCapture)
+      .filter(_ => _.after.analysis.noKingCapture);
+
   }
 
   get check(): boolean {
@@ -47,7 +58,12 @@ export class Situation extends AnyVal {
   }
 
   uciOrCastles(move: UciOrCastles) {
-    return this.moves.find(uciOrCastles(move));
+    let filter = isCastles(move)?orCastles(move):uci(move);
+    return this.moves.find(filter);
   }
-  
+
+  sanOrCastles(move: SanOrCastles) {
+    let filter = isCastles(move)?orCastles(move):san(move);
+    return this.moves.find(filter);
+  }  
 }

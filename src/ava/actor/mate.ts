@@ -4,11 +4,16 @@ import { uciOrCastles, situation, Analysis, isMove, mover } from '../../';
 
 test.skip('debug', t => {
 
-  let _sit = situation('1r3rk1/2p1qppb/p2n4/1p2p1Pp/4Qn1P/2P1N3/PPB2P1K/3R2R1 w - - 0 1')!;
+  let _sit = situation('1r6/5k2/2p1pNp1/p5Pp/1pQ1P2P/2P4R/KP3P2/3q4 w - - 4 31')!;
 
-  let mate = _sit.uciOrCastles(uciOrCastles('e4h7')!)!.after;
+  let mate = _sit.uciOrCastles(uciOrCastles('c4c6')!)!.after;
 
-  t.log(mate.mate);
+  let mateIn2s = mate.moves
+    .filter(_ => _.after.moves.every(_ =>
+      _.after.moves.some(_ => _.after.mate)))
+    .map(_ => _.uci)
+
+  t.log(mate.uciOrCastles(uciOrCastles('b4b3')!));
   
 });
 
@@ -22,7 +27,7 @@ test('matein1', async t => {
 
     let after = situation(fen)!.uciOrCastles(move)!.after;
 
-    let mates = after.moves.filter(_ => _.after.mate)
+    let mates = after.moves
       .filter(_ => _.after.mate)
       .map(_ => _.uci)
     
@@ -32,7 +37,7 @@ test('matein1', async t => {
   
 });
 
-test('matein2', async t => {
+test.skip('matein2', async t => {
 
   let lines = await readMate2();
 
@@ -42,7 +47,13 @@ test('matein2', async t => {
 
     let after = situation(fen)!.uciOrCastles(move)!.after;
 
-    t.log(after.fen, moves);
+    let mateIn2s = after.moves
+      .filter(_ => _.after.moves.every(_ =>
+        _.after.moves.some(_ => _.after.mate)))
+      .map(_ => _.uci)
+    
+    t.true(mateIn2s.includes(expected.uci));
+    t.log(fen, mateIn2s, expected.uci, mateIn2s.includes(expected.uci));
   });
   
 });
