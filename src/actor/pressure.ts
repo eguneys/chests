@@ -1,3 +1,4 @@
+import { Maybe } from '../types';
 import { Role } from '../role';
 import { Piese } from '../piese';
 import { Piece } from '../piece';

@@ -1,6 +1,6 @@
 {
-  "name": "chests",
-  "version": "1.0.0",
+  "name": "chesst",
+  "version": "2.0.0",
   "include": [
     "src/*.ts"
   ],

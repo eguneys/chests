@@ -1,3 +1,4 @@
+import { Maybe } from './types';
 import AnyVal from './anyval';
 import { Pos } from './pos';
 import { Role } from './role';
@@ -11,7 +12,17 @@ export function sanOrCastles(sanOrC: string): Maybe<SanOrCastles> {
   } else if (Castles.longNotations.includes(sanOrC)) {
     return Castles.long;
   }
-  return san(sanOrC);
+  return san2(sanOrC) || san(sanOrC);
+}
+
+export function san2(san2: string): Maybe<San> {
+  let res = san2.split(' ');
+
+  if (res.length !== 8) {
+    return;
+  }
+  let [roleS, fileS, rankS, captureS, toS, promotionS, checkS, mateS] = res;
+  return makeSan(san2, roleS, fileS, rankS, captureS, toS, promotionS, checkS, mateS);  
 }
 
 export function san(san: string): Maybe<San> {
@@ -25,29 +36,41 @@ export function san(san: string): Maybe<San> {
 
     promotionS = promotionS.replace('=', '');
 
-    let mate = mateS !== '',
-    check = checkS !== '',
-    capture = captureS !== '',
-    rank = rankS !== '' ? Rank.mkey(rankS) : undefined,
-    file = fileS !== '' ? File.mkey(fileS) : undefined,
-    role = roleS !== '' ? Role.mkey(roleS) || Role.pawn : Role.pawn,
-    promotion = promotionS !== '' ? Role.mkey(promotionS): undefined,
-    to = Pos.mkey(toS);
-
-    if (to) {
-      return new San(san,
-                     to,
-                     role,
-                     file,
-                     rank,
-                     promotion,
-                     capture,
-                     check,
-                     mate);
-    }
-    
+    return makeSan(san, roleS, fileS, rankS, captureS, toS, promotionS, checkS, mateS);
   }  
   
+}
+
+export function makeSan(san: string,
+                        roleS: string,
+                        fileS: string,
+                        rankS: string,
+                        captureS: string,
+                        toS: string,
+                        promotionS: string,
+                        checkS: string,
+                        mateS: string): Maybe<San> {
+  
+  let mate = mateS !== '',
+  check = checkS !== '',
+  capture = captureS !== '',
+  rank = rankS !== '' ? Rank.mkey(rankS) : undefined,
+  file = fileS !== '' ? File.mkey(fileS) : undefined,
+  role = roleS !== '' ? Role.mkey(roleS) || Role.pawn : Role.pawn,
+  promotion = promotionS !== '' ? Role.mkey(promotionS): undefined,
+  to = Pos.mkey(toS);
+
+  if (to) {
+    return new San(san,
+                   to,
+                   role,
+                   file,
+                   rank,
+                   promotion,
+                   capture,
+                   check,
+                   mate);
+  }
 }
 
 export type SanOrCastles = San | Castles

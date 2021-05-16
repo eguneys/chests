@@ -1,3 +1,4 @@
+import { Maybe } from './types';
 import AnyVal from './anyval';
 import { Piece, PieceKey } from './piece';
 

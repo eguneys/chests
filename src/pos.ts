@@ -1,3 +1,4 @@
+import { Maybe } from './types';
 import AnyVal from './anyval';
 import { File, Rank, FileKey, RankKey } from './dir';
 import { D1 } from './disp';

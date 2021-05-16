@@ -1,3 +1,4 @@
+import { Maybe } from './types';
 import AnyVal from './anyval';
 import MapV from './mapv';
 import { Piese } from './piese';

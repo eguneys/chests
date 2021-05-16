@@ -1,3 +1,4 @@
+import { Maybe } from './types';
 import { Pos } from './pos';
 import { Color, isColorKey } from './role';
 import { Board } from './board';
