@@ -8,6 +8,8 @@ import { Situation } from './situation';
 import { D0, D1, isD0Key } from './disp';
 import { Piece, isPieceKey } from './piece';
 
+export type Fen = string;
+
 export const initial = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
 export const initialSituation = situation(initial);

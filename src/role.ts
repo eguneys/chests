@@ -37,6 +37,13 @@ export class Role extends AnyVal {
     Role.pawn
   ];
 
+  static promotables: Array<Role> = [
+    Role.queen,
+    Role.knight,
+    Role.rook,
+    Role.bishop
+  ];
+
   static mkey = (key: string): Maybe<Role> => Role.allByKey.get(key.toLowerCase() as RoleKey);
   
   static key = (key: RoleKey): Role => Role.mkey(key)!;

@@ -57,6 +57,11 @@ export class Situation extends AnyVal {
     this.turn = turn;
   }
 
+  withBoard(board: Board) {
+    return Situation.make(board,
+                          this.turn);
+  }
+
   uciOrCastles(move: UciOrCastles) {
     let filter = isCastles(move)?orCastles(move):uci(move);
     return this.moves.find(filter);

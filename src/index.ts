@@ -12,6 +12,7 @@ export * as uci from './uci';
 export * as m from './move';
 export * as a from './actor';
 export * as misc from './misc2';
+export * as uc from './ucicharpair';
 
 export * from './pos';
 export * from './dir';

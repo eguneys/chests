@@ -96,6 +96,22 @@ export class Board extends AnyVal {
     }
   }
 
+  pickup(pos: Pos) {
+    let atse = this.pieses.get(pos);
+    if (atse) {
+      let pieses = this.pieses.copy;
+      pieses.delete(pos);
+      return new Board(pieses);
+    }
+  }
+
+  drop(pos: Pos, piece: Piece) {
+    let pieses = this.pieses.copy;
+    pieses.delete(pos);
+    pieses.set(pos, piece.on(pos));
+    return new Board(pieses);
+  }
+
   onRoute(route: Route) {
     return this.values.filter(_ =>
       route.on(_.pos));

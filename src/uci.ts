@@ -1,5 +1,6 @@
 import { Maybe } from './types';
 import AnyVal from './anyval';
+import { SanOrCastles } from './san';
 import { Pos } from './pos';
 import { Role } from './role';
 import { Castles } from './san';
@@ -40,8 +41,18 @@ export function uci(uci: string): Maybe<Uci> {
 
 export type UciOrCastles = Uci | Castles
 
+export type UciWithSan = {
+  uci: UciOrCastles,
+  san: SanOrCastles
+};
+
 export class Uci extends AnyVal {
 
+  static withSan = (uci: UciOrCastles, san: SanOrCastles): UciWithSan => ({
+    uci,
+    san
+  });
+  
   orig: Pos
   dest: Pos
   promotion?: Role
