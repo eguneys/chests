@@ -5,7 +5,7 @@ import { UciOrCastles } from './uci';
 import { SanOrCastles, isCastles } from './san';
 import { Move, isMove } from './move';
 import { Analysis } from './actor/analysis';
-import { moveCastles, movePawnPush, move, uci, san, orCastles } from './actor/mover';
+import { moveEnPassant, moveCastles, movePawnPush, move, uci, san, orCastles } from './actor/mover';
 
 export class Situation extends AnyVal {
   
@@ -26,6 +26,9 @@ export class Situation extends AnyVal {
 
   get moves(): Array<Move> {
 
+    let enpassants = this.analysis.ourEnPassants
+      .map(_ => moveEnPassant(this, _));
+    
     let pawnpushes = this.analysis.ourPawnPushes
       .map(_ => movePawnPush(this, _));
     
@@ -36,7 +39,7 @@ export class Situation extends AnyVal {
     let castles = this.analysis.ourCastles
       .map(_ => moveCastles(this, _));
 
-    return pawnpushes.concat(directs).concat(castles)
+    return enpassants.concat(pawnpushes).concat(directs).concat(castles)
       .filter(isMove)
       .filter(_ => _.after.analysis.noKingCapture);
 

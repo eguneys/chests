@@ -33,6 +33,11 @@ export const regularProjectionMap = new RoleMap<number>(
   1
 );
 
+export const pawnEnPassantRanks = new ColorMap<Rank>(
+  Rank.fifth,
+  Rank.fourth
+);
+
 export const pawn2ProjectionRanks = new ColorMap<Rank>(
   Rank.second,
   Rank.seventh

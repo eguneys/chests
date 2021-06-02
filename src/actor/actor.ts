@@ -12,6 +12,8 @@ import { ColorMap } from '../cmap';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
 import { CastlesOn } from './castle';
+import { EnPassant } from './enpassant';
+import { pawnEnPassantRanks } from '../misc';
 
 export class Actor {
   
@@ -39,6 +41,26 @@ export class Actor {
     return this.piese.piece.is(Role.pawn);
   }
 
+  get enPassants(): Array<EnPassant> {
+    if (!this.isPawn) {
+      return [];
+    }
+
+    if (!this.pos.rank.equals(pawnEnPassantRanks.get(this.piese.color))) {
+      return [];
+    }
+
+    
+    return this.piese.capturePaths.map(capturePaths => {
+      let to = capturePaths[0],
+      capture = to.d1(this.color.white?D1.pawnBlack:D1.pawnWhite);
+
+      return EnPassant.make(this.piese,
+                            to,
+                            capture&&this.board.get(capture));
+    });
+  }
+  
   get pawnPushes(): Array<PawnPush> {
     if (!this.isPawn) {
       return [];

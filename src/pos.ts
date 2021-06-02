@@ -119,6 +119,13 @@ export class Pos extends AnyVal {
     return Route.make(this, d1);
   }
 
+  distance(pos: Pos): D1 {
+    return D1.make(
+      this.file.distance(pos.file),
+      this.rank.distance(pos.rank)
+    );
+  }
+
   d1(d1: D1): Maybe<Pos> {
     let pfile = this.file.d0(d1.dfile),
     prank = this.rank.d0(d1.drank);

@@ -3,6 +3,7 @@ import { Situation } from '../situation';
 import { Analysis } from './analysis';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
+import { EnPassant } from './enpassant';
 import { CastlesOn } from './castle';
 import { Move, isMove } from '../move';
 import { Uci, UciOrCastles } from '../uci';
@@ -54,6 +55,24 @@ export function move(situation: Situation, pressure: Pressure): Maybe<Move> {
       pressure.pos,
       pressure.to,
       pressure.captures?pressure.to:undefined);
+  }
+}
+
+export function moveEnPassant(situation: Situation, enPassant: EnPassant): Maybe<Move> {
+  if (!enPassant.capture) {
+    return;
+  }
+  let afterBoard = situation.board.enPassant(enPassant.pos,
+                                             enPassant.to,
+                                             enPassant.capture.pos);
+  if (afterBoard) {
+    return Move.make(
+      enPassant.piese.piece,
+      situation,
+      afterBoard,
+      enPassant.pos,
+      enPassant.to,
+      enPassant.capture?.pos);
   }
 }
 

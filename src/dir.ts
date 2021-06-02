@@ -60,6 +60,10 @@ export class File extends AnyVal {
     this.index = index;
   }
 
+  distance(file: File): D0 {
+    return D0.make(this.index - file.index);
+  }
+  
   rank(rank: Rank): Pos {
     return Pos.make(this, rank);
   }
@@ -119,6 +123,10 @@ export class Rank extends AnyVal {
     this.index = index;
   }
 
+  distance(rank: Rank): D0 {
+    return D0.make(this.index - rank.index);
+  }
+  
   file(file: File): Pos {
     return Pos.make(file, this);
   }

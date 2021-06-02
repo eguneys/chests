@@ -52,6 +52,14 @@ export class Uci extends AnyVal {
     uci,
     san
   });
+
+  static make = (orig: Pos,
+                 dest: Pos,
+                 promotion?: Role): Uci => new Uci(
+    orig.key as string + dest.key as string + (promotion?.promotionS||''),
+    orig,
+    dest,
+    promotion);
   
   orig: Pos
   dest: Pos

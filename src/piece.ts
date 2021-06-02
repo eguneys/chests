@@ -3,6 +3,7 @@ import { Color,  Role, RoleKey } from './role';
 import { Piese } from './piese';
 import { Pos } from './pos';
 import { ColorMap } from './cmap';
+import { pawnPromoteRanks } from './misc';
 
 export const pieces = ['q', 'n', 'r', 'b', 'p', 'k',
                        'Q', 'N', 'R', 'B', 'P', 'K'] as const;
@@ -41,6 +42,11 @@ export class Piece extends AnyVal {
     this.color = Color.boole(roleKey !== key);
   }
 
+  promotes(pos: Pos): boolean {
+    return this.is(Role.pawn) &&
+      pos.equals(pawnPromoteRanks.get(this.color));
+  }
+  
   on(pos: Pos): Piese {
     return Piese.make(this, pos);
   }

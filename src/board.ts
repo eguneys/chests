@@ -96,6 +96,18 @@ export class Board extends AnyVal {
     }
   }
 
+  enPassant(pos: Pos, to: Pos, capture: Pos) {
+    let atse = this.pieses.get(pos);
+    let capse = this.pieses.get(capture);
+    if (atse && capse) {
+      let pieses = this.pieses.copy;
+      pieses.delete(pos);
+      pieses.delete(capse.pos);
+      pieses.set(to, atse.piece.on(to));
+      return new Board(pieses);
+    }    
+  }
+
   pickup(pos: Pos) {
     let atse = this.pieses.get(pos);
     if (atse) {

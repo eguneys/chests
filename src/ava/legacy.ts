@@ -60,3 +60,9 @@ test('Nc6', t => {
 
 //   t.is(playMove(f8Q, 'exf8=Q').san, 'exf8=Q');
 // });
+
+test.only('en passant', t => {
+  let exd6 = situation('rnbqk2r/ppp1bppp/8/3pP3/2BP1pn1/5N2/PPP3PP/RNBQK2R w KQkq d6 0 7')!;
+
+  t.is(playMove(exd6, 'exd6')?.san, 'exd6');
+});

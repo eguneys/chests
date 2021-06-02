@@ -39,6 +39,9 @@ export class D0 extends AnyVal {
   static right6 = D0.make(6);
   static right7 = D0.make(7);
   
+  static pawnWhite = D0.up
+  static pawnBlack = D0.down;
+  
 
   static all: Array<D0> = [
     D0.zero,
@@ -72,6 +75,10 @@ export class D0 extends AnyVal {
     super(index);
   }
 
+  file(file: D0 = D0.zero) {
+    return D1.make(file, this);
+  }
+  
   rank(rank: D0 = D0.zero) {
     return D1.make(this, rank);
   }
@@ -108,7 +115,10 @@ export class D1 extends AnyVal {
   static downRight2 = D1.make(D0.right2, D0.down);
   static upLeft2 = D1.make(D0.left2, D0.up);
   static upRight2 = D1.make(D0.right2, D0.up);
-    
+
+
+  static pawnWhite = D0.pawnWhite.file();
+  static pawnBlack = D0.pawnBlack.file();
   
   readonly dfile: D0;
   readonly drank: D0;

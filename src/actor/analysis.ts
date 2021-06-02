@@ -8,6 +8,7 @@ import { Actor } from './actor';
 import { CastlesOn } from './castle';
 import { Pressure } from './pressure';
 import { PawnPush } from './pawnpush';
+import { EnPassant } from './enpassant';
 
 export class Analysis {
 
@@ -24,6 +25,10 @@ export class Analysis {
   
   get turn(): Color {
     return this.situation.turn;
+  }
+
+  get ourEnPassants(): Array<EnPassant> {
+    return this.us.flatMap(_ => _.enPassants);
   }
 
   get ourPawnPushes(): Array<PawnPush> {
