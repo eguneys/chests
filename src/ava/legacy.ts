@@ -61,8 +61,15 @@ test('Nc6', t => {
 //   t.is(playMove(f8Q, 'exf8=Q').san, 'exf8=Q');
 // });
 
-test.only('en passant', t => {
+test('en passant', t => {
   let exd6 = situation('rnbqk2r/ppp1bppp/8/3pP3/2BP1pn1/5N2/PPP3PP/RNBQK2R w KQkq d6 0 7')!;
 
   t.is(playMove(exd6, 'exd6')?.san, 'exd6');
+  t.is(playMove(exd6, 'exd6')?.after.fen, 'rnbqk2r/ppp1bppp/3P4/8/2BP1pn1/5N2/PPP3PP/RNBQK2R b - - 0 1');
+});
+
+test.only('enpassant d1 is undefined', t => {
+
+  let h3 = situation('r1b1kb1r/ppq2pp1/2n1p3/3pP3/3p1BQp/3B4/PPP2PPP/RN2R1K1 b - - 0 1')!;
+  t.is(playMove(h3, 'h3')?.san, 'h3');
 });

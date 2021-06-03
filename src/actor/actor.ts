@@ -51,7 +51,9 @@ export class Actor {
     }
 
     
-    return this.piese.capturePaths.map(capturePaths => {
+    return this.piese.capturePaths
+      .filter(_ => _.length > 0)
+      .map(capturePaths => {
       let to = capturePaths[0],
       capture = to.d1(this.color.white?D1.pawnBlack:D1.pawnWhite);
 
