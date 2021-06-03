@@ -1,6 +1,6 @@
 {
   "name": "chesst",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "include": [
     "src/*.ts"
   ],
@@ -12,9 +12,9 @@
     "watch": "tsc-watch --onSuccess 'ava --fail-fast'",
     "build": "rm -rf lib && tsc",
     "test": "yarn -s build && ava",
-    "ava": "ava"
+    "ava": "ava",
+    "prepublish": "yarn build"
   },
-  "prepublish": "yarn build",
   "devDependencies": {
     "@types/node": "^15.0.2",
     "ava": "^3.15.0",
