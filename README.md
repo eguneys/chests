@@ -25,6 +25,4 @@ Based on [Scalachess](https://github.com/ornicar/scalachess).
   
 ```
 
-
-## API
-
+Run Tests with Code coverage `yarn test`.

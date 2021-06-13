@@ -68,7 +68,7 @@ test('en passant', t => {
   t.is(playMove(exd6, 'exd6')?.after.fen, 'rnbqk2r/ppp1bppp/3P4/8/2BP1pn1/5N2/PPP3PP/RNBQK2R b - - 0 1');
 });
 
-test.only('enpassant d1 is undefined', t => {
+test('enpassant d1 is undefined', t => {
 
   let h3 = situation('r1b1kb1r/ppq2pp1/2n1p3/3pP3/3p1BQp/3B4/PPP2PPP/RN2R1K1 b - - 0 1')!;
   t.is(playMove(h3, 'h3')?.san, 'h3');
