@@ -11,7 +11,7 @@
     "watchActor": "tsc-watch --onSuccess 'ava lib/ava/legacy.js --fail-fast'",
     "watch": "tsc-watch --onSuccess 'ava --fail-fast'",
     "build": "rm -rf lib && tsc",
-    "test": "yarn -s build && nyc ava",
+    "test": "yarn -s build && nyc --reporter=lcov --reporter=text-summary ava",
     "ava": "ava",
     "prepublish": "yarn build"
   },
