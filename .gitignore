@@ -1,3 +1,4 @@
 node_modules/
 lib/
 db/lichess_db_puzzle.csv
+.nyc_output/
